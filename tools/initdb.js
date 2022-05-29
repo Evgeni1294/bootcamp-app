@@ -6,10 +6,21 @@ const postgres = require( "postgres" );
 const init = async () => {
 	// read environment variables
 	dotenv.config();
+
+	const options = {
+		host: process.env.PGHOST,
+		port: process.env.PGPORT,
+		database: process.env.PGDATABASE,
+		username:process.env.PGUSERNAME,
+		password:process.env.PGPASSWORD,
+		ssl: {
+			rejectUnauthorized: false 
+		},
+	};
   
 	try {
 		// connect to the local database server
-		const sql = postgres();
+		const sql = postgres(options);
 
 		console.log( "dropping table, if exists..." );
 		await sql`DROP TABLE IF EXISTS measurements`;
